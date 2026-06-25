@@ -10,17 +10,24 @@
 
 ## Önce bir bak, sonra seç
 
-| # | Template | İlgi alanı | Ücretsiz kaynak | PyPI kütüphanesi | API key? | Zorluk |
-|---|---|---|---|---|---|---|
-| ⭐ | **WikiTLDR** *(eğitmen örneği)* | Genel / RAG | Wikipedia | `wikipedia-api` | ❌ Yok | 🟢 Kolay |
-| 1 | **FinanceTLDR** 📈 | Finans | Yahoo Finance | `yfinance` | ❌ Yok | 🟢 Kolay |
-| 2 | **NewsDigest** 📰 | Haber / İçerik | Google News / Guardian | `gnews` / `feedparser` | 🟡 Opsiyonel | 🟢 Kolay |
-| 3 | **DevRadar** 🛠 | Geliştirici | Hacker News (Algolia) | `httpx` | ❌ Yok | 🟢 Kolay |
-| 4 | **NutriCheck** 🥗 | Sağlık | Open Food Facts | `httpx` | ❌ Yok | 🟢 Kolay |
-| 5 | **MatchBrief** ⚽ | Spor | TheSportsDB | `httpx` | ❌ Yok* | 🟡 Orta |
-| 6 | **PaperTLDR** 🎓 | Akademi | arXiv | `arxiv` | ❌ Yok | 🟢 Kolay |
+> **İki katmanı karıştırma:** **PyPI kütüphanesi** = veriye *nasıl* eriştiğin (Python paketi).
+> **Ücretsiz kaynak** = verinin *nereden* geldiği (servis/API). Yani PyPI sadece bağlanma aracı;
+> altında her zaman ücretsiz bir kaynak var. Tabloda 🔗 işaretli olanlar
+> [public-apis](https://github.com/public-apis/public-apis) / [free-for.dev](https://free-for.dev)
+> kataloglarında listeli, key gerektirmeyen gerçek public API'lerdir.
 
-<sub>\* TheSportsDB ücretsiz public test key (`3`) kullanır — kayıt gerekmez.</sub>
+| # | Template | İlgi alanı | Ücretsiz kaynak | PyPI kütüphanesi | API key? | Zorluk |
+| --- | --- | --- | --- | --- | --- | --- |
+| ⭐ | **WikiTLDR** *(eğitmen örneği)* | Genel / grounding | 🔗 Wikipedia | `wikipedia-api` | ❌ Yok | 🟢 Kolay |
+| 1 | **FinanceTLDR** 📈 | Finans | Yahoo Finance | `yfinance` | ❌ Yok | 🟢 Kolay |
+| 2 | **NewsDigest** 📰 | Haber / İçerik | Google News / 🔗 Guardian | `gnews` / `feedparser` | 🟡 Opsiyonel | 🟢 Kolay |
+| 3 | **DevRadar** 🛠 | Geliştirici | 🔗 Hacker News (Algolia) | `httpx` | ❌ Yok | 🟢 Kolay |
+| 4 | **NutriCheck** 🥗 | Sağlık | 🔗 Open Food Facts | `httpx` | ❌ Yok | 🟢 Kolay |
+| 5 | **MatchBrief** ⚽ | Spor | 🔗 TheSportsDB | `httpx` | ❌ Yok\* | 🟡 Orta |
+| 6 | **PaperTLDR** 🎓 | Akademi | 🔗 arXiv | `arxiv` | ❌ Yok | 🟢 Kolay |
+
+\* TheSportsDB ücretsiz public test key (`3`) kullanır — kayıt gerekmez.
+🔗 = public-apis / free-for.dev kataloğunda listeli, key gerektirmeyen public API.
 
 **Karar veremiyorsan:** İlgi duyduğun alanı seç. Hepsi 2 saatlik workshop'ta junior bir
 geliştirici tarafından bile bitirilebilir; hiçbiri kredi kartı istemez, maliyet **$0**.
@@ -33,7 +40,7 @@ Hangi fikri seçersen seç, dokunduğun yer hep aynı. SOLID iskelet (`llm_clien
 `dependencies.py`, `main.py`) **sabit kalır**.
 
 | Dosya | Ne yazarsın? |
-|---|---|
+| --- | --- |
 | `ai_service/data_sources.py` | Veriyi **nereden** çekiyorsun (bu sayfadaki kod parçaları buraya gider) |
 | `ai_service/prompts.py` | Gemini'ye **ne** soruyorsun (prompt template) |
 | `backend/routes.py` | Endpoint'in **adı ve şekli** (veri çek → prompt doldur → `llm.generate`) |
@@ -50,14 +57,19 @@ Hangi fikri seçersen seç, dokunduğun yer hep aynı. SOLID iskelet (`llm_clien
 değildir"* notlu sade bir yorum üretir.
 
 | | |
-|---|---|
+| --- | --- |
 | **Ücretsiz kaynak** | Yahoo Finance (key gerektirmez, kütüphane üzerinden erişilir) |
 | **PyPI** | `yfinance` |
 | **Örnek endpoint** | `POST /stock-summary` → `{"ticker": "AAPL"}` |
 
+> ℹ️ **Katalog notu:** Yahoo Finance resmi bir public API değildir; `yfinance` Yahoo'nun uçlarını
+> kazır. Ücretsiz bir veri kaynağıdır ama public-apis/free-for.dev kataloğunda bir "servis"
+> olarak listeli değildir.
+
 **Kurulum** — `requirements.txt`'e ekle: `yfinance`
 
 **`data_sources.py`:**
+
 ```python
 import yfinance as yf
 
@@ -84,14 +96,18 @@ Sonuna 'Bu bir yatırım tavsiyesi değildir.' ekle. Veri: {content}"*
 **Ne yapar?** Bir konudaki son haber başlıklarını çeker, Gemini ile tek paragraf brifing üretir.
 
 | | |
-|---|---|
-| **Ücretsiz kaynak** | Google News RSS (key yok) **veya** The Guardian API (ücretsiz key, ~500 istek/gün, kredi kartısız) |
+| --- | --- |
+| **Ücretsiz kaynak** | Google News RSS (key yok) **veya** 🔗 The Guardian API (ücretsiz key, ~500 istek/gün, kredi kartısız) |
 | **PyPI** | `gnews` (Google News) veya `feedparser` (genel RSS) |
 | **Örnek endpoint** | `POST /news-digest` → `{"topic": "yapay zeka"}` |
+
+> ℹ️ **Katalog notu:** The Guardian API public-apis/free-for.dev kataloğunda listeli (🔗).
+> Google News RSS ise bir feed'tir, katalog girişi değildir ama key gerektirmez.
 
 **Kurulum** — `requirements.txt`'e ekle: `gnews` *(veya `feedparser`)*
 
 **`data_sources.py`:**
+
 ```python
 from gnews import GNews
 
@@ -110,14 +126,17 @@ dönüştür. Başlıklar: {content}"*
 **Ne yapar?** Hacker News'te bir teknolojinin tartışma nabzını ölçer; topluluğun ne düşündüğünü özetler.
 
 | | |
-|---|---|
-| **Ücretsiz kaynak** | Hacker News Algolia Search API — key yok, auth yok |
+| --- | --- |
+| **Ücretsiz kaynak** | 🔗 Hacker News Algolia Search API — key yok, auth yok |
 | **PyPI** | `httpx` *(zaten kurulu)* |
 | **Örnek endpoint** | `POST /hn-pulse` → `{"keyword": "rust"}` |
+
+> 🔗 **Katalog notu:** public-apis kataloğunda listeli — key/auth gerektirmeyen gerçek public API.
 
 **Kurulum** — ek kütüphane gerekmez (`httpx` şablonda hazır).
 
 **`data_sources.py`:**
+
 ```python
 import httpx
 
@@ -139,14 +158,17 @@ async def fetch_hn(keyword: str, hits: int = 10) -> list[dict]:
 **Ne yapar?** Bir ürünün barkodunu alıp besin değerini çeker, Gemini ile sade sağlık yorumu üretir.
 
 | | |
-|---|---|
-| **Ücretsiz kaynak** | Open Food Facts API — key yok, auth yok, 3M+ ürün |
+| --- | --- |
+| **Ücretsiz kaynak** | 🔗 Open Food Facts API — key yok, auth yok, 3M+ ürün |
 | **PyPI** | `httpx` *(zaten kurulu)* |
 | **Örnek endpoint** | `POST /nutri-check` → `{"barcode": "3017620422003"}` |
+
+> 🔗 **Katalog notu:** public-apis kataloğunda listeli — key/auth gerektirmeyen gerçek public API.
 
 **Kurulum** — ek kütüphane gerekmez.
 
 **`data_sources.py`:**
+
 ```python
 import httpx
 
@@ -171,14 +193,17 @@ anlayacağı sadelikte yorumla. Sağlık tavsiyesi verme, sadece açıkla. Veri:
 **Ne yapar?** Bir takımın yaklaşan maçlarını çeker, Gemini ile taraftar dostu kısa önizleme yazar.
 
 | | |
-|---|---|
-| **Ücretsiz kaynak** | TheSportsDB free API (public test key: `3`) |
+| --- | --- |
+| **Ücretsiz kaynak** | 🔗 TheSportsDB free API (public test key: `3`) |
 | **PyPI** | `httpx` *(zaten kurulu)* |
 | **Örnek endpoint** | `POST /match-brief` → `{"team": "Galatasaray"}` |
+
+> 🔗 **Katalog notu:** public-apis kataloğunda listeli — ücretsiz public test key (`3`) ile kayıtsız kullanılır.
 
 **Kurulum** — ek kütüphane gerekmez.
 
 **`data_sources.py`:**
+
 ```python
 import httpx
 
@@ -204,14 +229,17 @@ metnine çevir. Veri: {content}"*
 **Ne yapar?** arXiv'den son makaleyi çeker, Gemini ile herkesin anlayacağı sade özet üretir.
 
 | | |
-|---|---|
-| **Ücretsiz kaynak** | arXiv API — key yok, açık erişim |
+| --- | --- |
+| **Ücretsiz kaynak** | 🔗 arXiv API — key yok, açık erişim |
 | **PyPI** | `arxiv` |
 | **Örnek endpoint** | `POST /paper-tldr` → `{"query": "diffusion models"}` |
+
+> 🔗 **Katalog notu:** public-apis kataloğunda listeli — açık akademik API, key gerektirmez.
 
 **Kurulum** — `requirements.txt`'e ekle: `arxiv`
 
 **`data_sources.py`:**
+
 ```python
 import arxiv
 

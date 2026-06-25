@@ -1,12 +1,16 @@
 # PRD Oluşturmak için Prompt
 
-## Kaynaklar
-https://pypi.org/
+Bu dosya, PRD oluşturmak için gereken prompt örneğini ve proje için seçtiğimiz kaynakları gösterir.
 
-https://free-for.dev/#/?id=apis-data-and-ml
+## Kaynaklar
+
+1) https://pypi.org/
+
+2) https://free-for.dev/#/?id=apis-data-and-ml
+
+PRD oluşturmak için prompt:
 
 ## Prompt
-
 
 Bir demo projesi yapmak istiyorum. Bunun için @genai-workshop/ORNEK_CALISMALAR.md içerisindeki WikiTLDR projesini seçtim.
 

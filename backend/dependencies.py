@@ -7,12 +7,9 @@ Offline/test için GeminiClient yerine MockClient döndürmen yeterli.
 
 from __future__ import annotations
 
-from functools import lru_cache
-
 from ai_service.llm_client import GeminiClient, LLMClient
 
 
-@lru_cache
 def get_llm_client() -> LLMClient:
     return GeminiClient()
     # Offline / API key olmadan denemek için:

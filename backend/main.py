@@ -15,7 +15,7 @@ load_dotenv()  # lokalde .env okunur; Cloud Run'da env vars zaten set'li
 
 from backend.routes import router  # noqa: E402
 
-app = FastAPI(title="GenAI MVP")
+app = FastAPI(title="MatchBrief")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],

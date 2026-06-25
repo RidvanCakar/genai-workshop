@@ -33,7 +33,8 @@ class GeminiClient(LLMClient):
     def __init__(self, model: str | None = None):
         from google import genai
 
-        self._client = genai.Client()  # GEMINI_API_KEY env'den okunur
+        api_key = os.getenv("GEMINI_API_KEY")
+        self._client = genai.Client(api_key=api_key)
         self._model = model or os.getenv("GEMINI_MODEL", "gemini-3-flash-preview")
 
     async def generate(self, prompt: str) -> str:
@@ -41,6 +42,8 @@ class GeminiClient(LLMClient):
             model=self._model,
             contents=prompt,
         )
+        if not resp.text:
+            raise ValueError("Gemini boş yanıt döndürdü.")
         return resp.text
 
 

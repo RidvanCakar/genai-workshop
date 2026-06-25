@@ -19,6 +19,10 @@ sen sadece "kendi projenin etini" doldurursun.
 5. Lokalde çalıştır → Cloud Run'a deploy et
 ```
 
+> 💡 **Ne yapacağına karar veremedin mi?** [**ORNEK_CALISMALAR.md**](ORNEK_CALISMALAR.md)
+> içinde 6 hazır fikir var — her biri için hangi ücretsiz kaynağı, hangi kütüphaneyi ve
+> hangi kodu kullanacağın yazılı. Bak, birini seç, kopyala-doldur.
+
 ### Hazır gelen (dokunmana gerek yok)
 | Dosya | Görevi |
 |---|---|
